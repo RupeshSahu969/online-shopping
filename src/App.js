@@ -4,13 +4,15 @@ import Slider from "./Pages/Slider";
 import Register from "./Pages/Register";
 import MainRoute from "./MainRoute/MainRoute";
 import Footer from "./Pages/Footer";
+import Cart from "./Pages/Cart";
 
 const App = () => {
   return (
     <div>
       <Navbar />
-      <Slider />
+      {/* <Slider /> */}
       <MainRoute />
+      {/* <Cart/> */}
       {/* <Footer /> */}
     </div>
   );

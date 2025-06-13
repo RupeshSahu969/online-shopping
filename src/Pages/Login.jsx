@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -9,34 +10,47 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+const navigate=useNavigate()
 
-    if (!email || !password) {
-      toast.error("please fill all the fields");
-      return;
-    }
+ const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    const payload = {
-      email, password,
-    }
-
-    try {
-      const res = await axios.post("http://localhost:8080/user/login", payload);
-      if (res.status === 200) {
-        toast.success(res.data?.message)
-      }
-      else {
-        toast.error(res.data?.message || "Login Failed");
-      }
-
-    }
-    catch (error) {
-      console.log(error);
-      toast.error(error.response?.data?.message || "Login failed. Try again.");
-    }
-
+  if (!email || !password) {
+    toast.error("Please fill all the fields");
+    return;
   }
+
+  const payload = {
+    email,
+    password,
+  };
+
+  try {
+    const res = await axios.post("http://localhost:8080/user/login", payload);
+
+    if (res.status === 200) {
+      toast.success(res.data?.message);
+
+      // ✅ Store user details in localStorage
+      const { token, email, name, id } = res.data.user;
+
+      localStorage.setItem("token", token);
+      localStorage.setItem("userEmail", email);
+      localStorage.setItem("userName", name);
+      localStorage.setItem("userId", id);
+
+      // Optionally redirect
+      // window.location.href = "/cart"; // or use React Router's `useNavigate()`
+      navigate("/")
+    } else {
+      toast.error(res.data?.message || "Login Failed");
+    }
+  } catch (error) {
+    console.log(error);
+    toast.error(error.response?.data?.message || "Login failed. Try again.");
+  }
+};
+
 
 
   return (
