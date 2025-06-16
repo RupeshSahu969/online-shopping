@@ -10,10 +10,8 @@ const App = () => {
   return (
     <div>
       <Navbar />
-      {/* <Slider /> */}
       <MainRoute />
-      {/* <Cart/> */}
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 };
